@@ -2,3 +2,5 @@
 
 module Phantom
 end
+
+require "phantom/graphql"
