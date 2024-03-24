@@ -12,5 +12,6 @@ Gem::Specification.new do |s|
   s.metadata["rubygems_mfa_required"] = "true"
 
   s.required_ruby_version = ">= 3.1"
-  s.add_dependency "minitest", ">= 5.1"
+  s.add_dependency "graphql"
+  s.add_dependency "minitest"
 end
