@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+require "phantom/version"
+
 Gem::Specification.new do |s|
   s.name        = "phantom"
-  s.version     = "0.0.1"
+  s.version     = Phantom::VERSION
   s.summary     = "Phantom!"
   s.description = "Phantom stack"
   s.authors     = ["Vivek"]
