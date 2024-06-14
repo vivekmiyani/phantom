@@ -29,9 +29,17 @@
   ```rb
   # app/graphql/types/base_field.rb
 
-  field_class.include(Phantom::Graphql::Authorization)
+  field_class.include(Phantom::Graphql::FieldExtensions)
   ```
 
   ```rb
   field :posts, [Types::PostType], authorize: "PostPolicy#index?", null: false
+  ```
+
+### Preload to prevent N+1
+
+  ```rb
+  class Types::PostType < Types::BaseObject
+    field :comments, [Types::CommentType], scope: "CommentPolicy", preload: :comments, null: false
+  end
   ```
