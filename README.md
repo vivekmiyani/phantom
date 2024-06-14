@@ -38,6 +38,9 @@
 
 ### Preload to prevent N+1
 
+- Pass asscoation name in `preload` which will fix N+1 query
+- Pass Policy name in `scope`, which will reduces scope in preloaded query
+
   ```rb
   class Types::PostType < Types::BaseObject
     field :comments, [Types::CommentType], scope: "CommentPolicy", preload: :comments, null: false
