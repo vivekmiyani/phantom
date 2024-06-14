@@ -14,10 +14,12 @@ module Phantom::Graphql::FieldExtensions
   end
 
   class PreloadExtension < GraphQL::Schema::FieldExtension
-    def resolve(context:, object:, arguments:, **rest)
+    def resolve(context:, object:, arguments:, **rest) # rubocop:disable Metrics/AbcSize
       BatchLoader::GraphQL.for(object).batch(key: field) do |records, loader|
         scope = options[:scope].constantize.new(context[:current_session]).scope if options[:scope].present?
-        ActiveRecord::Associations::Preloader.new(records: records.map(&:object), associations: options[:preload]).call
+        ActiveRecord::Associations::Preloader.new(
+          records: records.map(&:object), associations: options[:preload], scope: scope
+        ).call
         records.each { |r| loader.call(r, super(context: context, object: r, arguments: arguments, **rest)) }
       end
     end
@@ -27,7 +29,10 @@ module Phantom::Graphql::FieldExtensions
     extensions = (kwargs[:extensions] ||= [])
 
     extensions << { Phantom::Graphql::FieldExtensions::AuthorizeExtension => authorize } if authorize.present?
-    extensions << { Phantom::Graphql::FieldExtensions::PreloadExtension => { preload: preload, scope: scope } } if preload.present?
+
+    if preload.present?
+      extensions << { Phantom::Graphql::FieldExtensions::PreloadExtension => { preload: preload, scope: scope } }
+    end
 
     super(*args, **kwargs, &block)
   end
