@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module Phantom::Test
-  NULL = "/dev/null"
-
   @processes = {}
 
   def self.processes
@@ -19,7 +17,7 @@ module Phantom::Test
 
   def self.start(tag, command, dir:, url:, env: {})
     puts "* Starting #{tag}"
-    pid = Process.spawn(env, command, chdir: dir, err: NULL, in: NULL, out: NULL, pgroup: true)
+    pid = Process.spawn(env, command, chdir: dir, err: File::NULL, in: File::NULL, out: File::NULL, pgroup: true)
 
     processes[tag] = {
       command: command,
