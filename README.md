@@ -19,7 +19,7 @@
 - Add `authorize` option to `field`
 
   ```rb
-  # app/graphql/types/base_field.rb
+  # app/graphql/types/base_object.rb
 
   field_class.include(Phantom::Graphql::FieldExtensions)
   ```
